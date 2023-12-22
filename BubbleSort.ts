@@ -8,6 +8,7 @@ const bubble_sort = (array: number[]) => {
       }
     }
   }
+
   return array;
 };
 
