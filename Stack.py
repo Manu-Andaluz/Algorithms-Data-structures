@@ -1,7 +1,10 @@
+from typing import Optional
+
+
 class Node:
-    def __init__(self,data):
-        self.value = data;
-        self.prev = None
+    def __init__(self,value):
+        self.value = value;
+        self.prev : Optional["Node"] = None
 
 class Stack:
 
@@ -9,28 +12,28 @@ class Stack:
         self.length = 0
         self.head = None
 
-    def push(value):
-        if self.length == 0:
+    def push(self, value):
+        new_node = Node(value)
+        if self.head == None:
             self.length += 1
-            self.head = Node(value)
+            self.head = new_node
             return
-        
-        newNode = Node(value)
-        newNode.prev = self.head
-        self.head = newNode
+        else :
+            new_node.prev = self.head
+            self.head = new_node
 
-    def pop():
-        if self.length == 0:
+    def pop(self):
+        if self.head == None:
             head = self.head
             self.head = None
             return  head.value if head else None
 
         self.length -= 1
-        head = sef.head
+        head = self.head
         self.head = self.head.prev
-        return head.value 
+        return head.value
 
-    def peek():
+    def peek(self):
         return self.head.value if self.head else None
         
 
