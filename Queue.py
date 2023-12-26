@@ -1,7 +1,10 @@
+from typing import Optional
+
+
 class Node:
     def __init__(self, value):
         self.value = value
-        self.next = None
+        self.next: Optional["Node"] = None
 
 
 class Queue:
@@ -22,7 +25,7 @@ class Queue:
 
     # Method to remove an item from the queue
     def DeQueue(self):
-        if self.isEmpty():
+        if self.head is None:
             return
 
         self.length -= 1
