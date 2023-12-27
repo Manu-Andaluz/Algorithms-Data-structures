@@ -1,4 +1,4 @@
-export const BinarySearch = (array: number[], valueToFind): boolean => {
+export const BinarySearch = (array: number[], valueToFind: number): boolean => {
   let leftPointer = 0;
   let rightPointer = array.length - 1;
 
