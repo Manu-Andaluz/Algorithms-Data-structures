@@ -14,6 +14,7 @@ export const BinarySearch = (array: number[], valueToFind: number): boolean => {
       leftPointer = pointer + 1;
     }
   } while (leftPointer <= rightPointer);
+
   return false;
 };
 

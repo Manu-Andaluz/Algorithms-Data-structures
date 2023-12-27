@@ -4,7 +4,6 @@ def bubble_sort(array):
     while iterateLength > 0:
         index = 0
         for _ in range(iterateLength):
-            print(range(iterateLength))
             if array[index] > array[index + 1]:
                 x = array[index]
                 array[index] = array[index + 1]
@@ -16,3 +15,4 @@ def bubble_sort(array):
 
 
 bubble_sort([9, 2, 7, 5, 1])
+bubble_sort([11, 5, 2, 9, 8, 55, 1])
