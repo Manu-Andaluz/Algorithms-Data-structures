@@ -25,13 +25,16 @@ export default class Stack<T> {
     }
 
     pop() {
+        if (this.length === 0) return;
+
+        this.length--;
+
         if (this.length === 0) {
             const head = this.head;
             this.head = undefined;
             return head?.value;
         }
 
-        this.length--;
         const head = this.head as StackNode<T>;
         this.head = head.previus;
         return head.value;
@@ -41,4 +44,3 @@ export default class Stack<T> {
         return this.head?.value;
     }
 }
-
