@@ -34,8 +34,10 @@ export default class SinglyLinkedList<T> {
         const node = { value: item } as Node<T>;
 
         let current = this.head as Node<T> | undefined;
+        let prev: Node<T> | undefined;
 
         for (let i = 0; current && i < idx - 1; i++) {
+            prev = current;
             current = current.next;
         }
 
@@ -45,14 +47,14 @@ export default class SinglyLinkedList<T> {
 
         this.length++;
 
-        if (current == this.head) {
+        if (current === this.head) {
             return this.prepend(node.value);
-        } else if (current == this.tail) {
+        } else if (current === this.tail) {
             return this.append(node.value);
-        }
+        } else if (!prev) return;
 
-        node.next = current.next;
-        current.next = node;
+        node.next = current;
+        prev.next = node;
     }
 
     append(item: T): void {
@@ -77,7 +79,7 @@ export default class SinglyLinkedList<T> {
         let prev: Node<T> | undefined;
 
         for (let i = 0; i < this.length; i++) {
-            if (current?.value == item) {
+            if (current?.value === item) {
                 break;
             }
             prev = current;
@@ -91,13 +93,13 @@ export default class SinglyLinkedList<T> {
 
         this.length--;
 
-        if (this.length == 0) {
+        if (this.length === 0) {
             this.head = this.tail = undefined;
         } else if (!prev) {
             const temp = this.head;
             this.head = this.head.next;
             temp.next = undefined;
-        } else if (current == this.tail) {
+        } else if (current === this.tail) {
             prev.next = undefined;
             this.tail = prev;
         } else {
@@ -138,4 +140,15 @@ export default class SinglyLinkedList<T> {
         return this.remove(current.value);
     }
 }
+
+const newList = new SinglyLinkedList();
+
+newList.append(7);
+newList.append(4);
+newList.append(2);
+
+newList.insertAt(9, 2);
+
+console.log(newList.get(1));
+console.log(newList);
 
