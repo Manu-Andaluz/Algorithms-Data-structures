@@ -1,6 +1,5 @@
 const qs = (array: number[], low: number, high: number): void => {
     if (low >= high) {
-        console.log(array);
         return;
     }
 
@@ -22,6 +21,7 @@ const partition = (array: number[], low: number, high: number): number => {
             array[index] = temp;
         }
     }
+
     index++;
     array[high] = array[index];
     array[index] = pivot;
@@ -29,9 +29,10 @@ const partition = (array: number[], low: number, high: number): number => {
     return index;
 };
 
-export default function quick_sort(array: number[]): void {
+export default function quick_sort(array: number[]): number[] {
     qs(array, 0, array.length - 1);
+    console.log(array);
+    return array;
 }
 
 quick_sort([9, 3, 7, 4, 69, 420, 42]);
-
