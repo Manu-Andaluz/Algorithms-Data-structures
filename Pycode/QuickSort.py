@@ -13,10 +13,9 @@ def qs(arr: List[int], low: int, high: int) -> None:
 
 def partition(arr: List[int], low: int, high: int) -> int:
     pointer = arr[high]
-    i = low
     index = low - 1
 
-    for _ in range(i, high):
+    for i in range(low, high):
         if arr[i] <= pointer:
             index += 1
             temp = arr[i]
