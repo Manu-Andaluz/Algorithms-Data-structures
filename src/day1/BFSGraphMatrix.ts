@@ -4,8 +4,6 @@ export default function bfs(
     needle: number,
 ): number[] | null {
     const seen = new Array(graph.length).fill(false);
-    console.log("graph", graph, graph.length);
-    console.log("seen:", seen);
     const prev = new Array(graph.length).fill(-1);
 
     seen[source] = true;
