@@ -25,15 +25,18 @@ export default function bfs(
                 continue;
             }
 
-            seen[i] = true;
-            prev[i] = curr;
+            seen[i] = true; // curr = [0 => 1 => 2 => => 4 => 3 => => 5 => 6]
+            prev[i] = curr; // 1 = 0, 2 = 0 || 4 = 1 || 3 = 4 || 5 = 4 || 6 = 5
+            console.log("curr in prev: ", i);
             q.push(i);
         }
 
         seen[curr] = true;
     } while (q.length);
+    console.table(prev);
 
     if (prev[needle] === -1) {
+        // check we didn't did the prev[i] = curr where is the needle
         return null;
     }
 
@@ -43,9 +46,12 @@ export default function bfs(
     const out: number[] = [];
 
     while (prev[curr] !== -1) {
-        out.push(curr);
-        curr = prev[curr];
+        console.log("in while: ", prev[curr]);
+        out.push(curr); //   6 5 4 1
+        curr = prev[curr]; // 5 4 1 0
     }
+
+    console.log("out: ", out);
 
     return [source].concat(out.reverse());
 }
