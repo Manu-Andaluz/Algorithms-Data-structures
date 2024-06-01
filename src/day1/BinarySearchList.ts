@@ -1,19 +1,19 @@
 export default function bs_list(haystack: number[], needle: number): boolean {
-    let leftPointer = 0;
-    let rightPointer = haystack.length - 1;
+    let low = 0;
+    let high = haystack.length - 1;
 
     do {
-        const pointer = Math.floor((leftPointer + rightPointer) / 2);
-        const currentValue = haystack[pointer];
+        const pivot = Math.round((high + low) / 2);
+        const current = haystack[pivot];
 
-        if (currentValue == needle) {
+        if (current === needle) {
             return true;
-        } else if (currentValue > needle) {
-            rightPointer = pointer - 1;
+        } else if (current > needle) {
+            high = pivot - 1;
         } else {
-            leftPointer = pointer + 1;
+            low = pivot + 1;
         }
-    } while (leftPointer <= rightPointer);
+    } while (low <= high);
 
     return false;
 }
