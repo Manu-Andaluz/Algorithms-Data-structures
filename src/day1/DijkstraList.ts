@@ -26,14 +26,14 @@ export default function dijkstra_list(
     sink: number,
     arr: WeightedAdjacencyList,
 ): number[] {
-    const seen = new Array(arr.length).fill(false);
+    const seen = new Array(arr.length).fill(false); // new array with false's but not matrix[][], only []
     const dists = new Array(arr.length).fill(Infinity); // this keeps track of the weights,is used to keep track of the current known distances
     const prev = new Array(arr.length).fill(-1); // this keeps tracks of what vertex is connected to the other ones, is used to store
     // predecessor information for reconstructing the shortest paths
     dists[source] = 0;
 
+    // check whether if there are still unvisited vertices
     while (hasUnvisited(seen, dists)) {
-        // check whether if there are still unvisited vertices
         const curr = getLowestUnvisited(seen, dists); // index of the lowest distance value
         seen[curr] = true;
 
