@@ -1,6 +1,6 @@
 type StackNode<T> = {
     value: T;
-    previus?: StackNode<T>;
+    prev?: StackNode<T>;
 };
 
 export default class Stack<T> {
@@ -14,30 +14,29 @@ export default class Stack<T> {
 
     push(item: T) {
         const node = { value: item } as StackNode<T>;
-        this.length++;
 
+        this.length++;
         if (!this.head) {
             this.head = node;
             return;
         }
-        node.previus = this.head;
+
+        node.prev = this.head;
         this.head = node;
     }
 
     pop() {
-        if (this.length === 0) return;
+        if (!this.head) {
+            return undefined;
+        }
 
         this.length--;
 
-        if (this.length === 0) {
-            const head = this.head;
-            this.head = undefined;
-            return head?.value;
-        }
+        const node = this.head;
+        this.head = node.prev;
+        node.prev = undefined;
 
-        const head = this.head as StackNode<T>;
-        this.head = head.previus;
-        return head.value;
+        return node.value;
     }
 
     peek() {
