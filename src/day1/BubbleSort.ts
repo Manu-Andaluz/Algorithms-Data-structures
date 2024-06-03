@@ -10,19 +10,17 @@ export default function bubble_sort(arr: number[]): void {
     }
 }
 
-/* 
- export default function bubble_sort(arr: number[]): void {
-    let len = arr.length - 1;
-    do {
-        for (let i = 0; i < len; i++) {
-            if (arr[i] > arr[i + 1]) {
-                const x = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = x;
-            }
-        }
+// export default function bubble_sort(arr: number[]): void {
+//let len = arr.length - 1;
+//do {
+//for (let i = 0; i < len; i++) {
+//if (arr[i] > arr[i + 1]) {
+//const x = arr[i];
+//arr[i] = arr[i + 1];
+//arr[i + 1] = x;
+//}
+//}
 
-        len--;
-    } while (len > 0);
-}
- **/
+//len--;
+//} while (len > 0);
+//}
