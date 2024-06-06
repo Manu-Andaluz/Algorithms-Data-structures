@@ -14,170 +14,171 @@ export default class DoublyLinkedList<T> {
         this.length = 0;
     }
 
-    prepend(item: T): void {
-        const node = { value: item } as DoublyNode<T>;
-        this.length++;
-
-        if (!this.head) {
-            this.head = this.tail = node;
+    insertAt(item: T, index: number): void {
+        if (index > this.length || index < 0 || !this.head || !this.tail) {
+            throw new Error("Oh no");
         }
 
-        node.next = this.head;
-        this.head.prev = node;
-        this.head = node;
-    }
-
-    insertAt(item: T, idx: number): void {
-        if (idx > this.length) {
-            throw new Error("Oh no");
-        } else if (idx === 0) {
+        if (index === 0) {
             return this.prepend(item);
-        } else if (idx == this.length) {
+        }
+
+        if (index === this.length - 1) {
             return this.append(item);
         }
 
-        const node = { value: item } as DoublyNode<T>;
-        let current = this.head;
         this.length++;
+        const node = { value: item } as DoublyNode<T>;
+        let curr = this.head;
 
-        for (let i = 0; i < idx; i++) {
-            current = current?.next;
-        }
+        let i = 1;
+        while (curr.next) {
+            curr = curr.next;
+            if (i === index) {
+                node.next = curr;
+                if (curr.prev) {
+                    curr.prev.next = node;
+                }
+                curr.prev = node;
+                node.prev = curr.prev;
+                return;
+            }
 
-        node.next = current;
-        node.prev = current?.prev;
-
-        if (current?.prev) {
-            current.prev = node;
-        }
-
-        if (current?.next) {
-            current.next = node;
+            i++;
         }
     }
 
+    remove(item: T): T | undefined {
+        if (!this.head || !this.tail) {
+            return;
+        }
+
+        if (item === this.head.value) {
+            return this.removeAt(0);
+        }
+
+        if (item === this.tail.value) {
+            return this.removeAt(this.length - 1);
+        }
+
+        let curr = this.head as DoublyNode<T>;
+        let i = 1;
+        while (curr.next) {
+            curr = curr.next;
+            if (curr.value === item) {
+                this.length--;
+                if (curr.prev) {
+                    curr.prev.next = curr.next;
+                }
+
+                if (curr.next) {
+                    curr.next.prev = curr.prev;
+                }
+                return;
+            }
+
+            i++;
+        }
+
+        return;
+    }
+
+    removeAt(index: number): T | undefined {
+        if (index > this.length - 1 || index < 0 || !this.head || !this.tail) {
+            return;
+        }
+
+        this.length--;
+
+        if (index === this.length) {
+            const temp = this.tail;
+            this.tail = this.tail.prev;
+
+            if (this.tail?.next) {
+                this.tail.next = undefined;
+            }
+
+            return temp.value;
+        }
+
+        let curr = this.head as DoublyNode<T>;
+
+        if (this.length === 0) {
+            this.head = this.tail = undefined;
+            return curr.value;
+        }
+
+        if (index === 0) {
+            this.head = curr.next;
+            if (this.head?.prev) {
+                this.head.prev = undefined;
+            }
+            return curr.value;
+        }
+
+        let i = 1;
+        while (curr.next) {
+            curr = curr.next;
+
+            if (i === index) {
+                const temp = curr;
+                if (curr.prev) {
+                    curr.prev.next = curr.next;
+                }
+                if (curr.next) {
+                    curr.next.prev = curr.prev;
+                }
+                return temp.value;
+            }
+
+            i++;
+        }
+
+        return;
+    }
+
     append(item: T): void {
+        this.length++;
         const node = { value: item } as DoublyNode<T>;
 
-        this.length++;
-        if (!this.tail) {
+        if (!this.tail || !this.head) {
             this.head = this.tail = node;
             return;
         }
 
         node.prev = this.tail;
         this.tail.next = node;
-
         this.tail = node;
     }
 
-    remove(item: T): T | undefined {
-        let current = this.head;
+    prepend(item: T): void {
+        this.length++;
+        const node = { value: item } as DoublyNode<T>;
 
-        for (let i = 0; current && i < this.length; i++) {
-            if (current.value == item) {
-                break;
-            }
-
-            current = current?.next;
-        }
-
-        if (!current) {
-            return undefined;
-        }
-
-        this.length--;
-
-        if (this.length == 0) {
-            this.head = this.tail = undefined;
-            return current.value;
-        }
-
-        current.prev = current.next;
-        current.next = current.prev;
-
-        if (this.tail == current) {
-            this.tail = current.prev;
-        }
-
-        if (current == this.head) {
-            this.head = current.next;
-        }
-
-        current.prev = current.next = undefined;
-        return current.value;
-    }
-
-    get(idx: number): T | undefined {
-        if (idx > this.length) {
-            return;
-        } else if (!this.head) {
-            return;
-        }
-
-        let current = this.head as DoublyNode<T> | undefined;
-
-        for (let i = 0; i < idx; i++) {
-            if (i == idx) {
-                break;
-            }
-            current = current?.next;
-        }
-
-        return current?.value;
-    }
-
-    removeAt(idx: number): T | undefined {
-        const current = this.getAt(idx);
-
-        if (!current) {
-            return;
-        }
-
-        this.length--;
-
-        if (this.length === 0) {
-            const temp = this.head?.value;
-            this.head = this.tail = undefined;
-            return temp;
-        }
-
-        if (current.prev) {
-            current.prev.next = current.next;
-        }
-
-        if (current.next) {
-            current.next.prev = current.prev;
-        }
-
-        if (current == this.head) {
-            this.head = current.next;
-        }
-        if (current == this.tail) {
-            this.tail = current.prev;
-        }
-
-        current.next = current.prev = undefined;
-
-        return current.value;
-    }
-
-    getAt(idx: number) {
         if (!this.head) {
+            this.head = this.tail = node;
             return;
-        } else if (idx > this.length) {
-            throw new Error("Oh no");
         }
 
-        let current = this.head as DoublyNode<T> | undefined;
+        this.head.prev = node;
+        node.next = this.head;
+        this.head = node;
 
-        for (let i = 0; i < idx; i++) {
-            if (i == idx) {
-                break;
-            }
-            current = current?.next;
+        if (this.length === 2) {
+            this.tail = node;
+        }
+    }
+
+    get(index: number): T | undefined {
+        if (index > this.length || !this.head || !this.tail) {
+            return;
         }
 
-        return current;
+        let curr = this.head;
+        for (let i = 0; i < index; i++) {
+            curr = curr.next as DoublyNode<T>;
+        }
+
+        return curr.value;
     }
 }
