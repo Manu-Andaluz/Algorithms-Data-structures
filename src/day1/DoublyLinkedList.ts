@@ -31,8 +31,9 @@ export default class DoublyLinkedList<T> {
         const node = { value: item } as DoublyNode<T>;
         let curr = this.head;
 
-        for (let i = 1; i < this.length - 1 && curr; i++) {
-            curr = curr.next as DoublyNode<T>;
+        let i = 1;
+        while (curr.next) {
+            curr = curr.next;
             if (i === index) {
                 node.next = curr;
                 if (curr.prev) {
@@ -42,12 +43,14 @@ export default class DoublyLinkedList<T> {
                 node.prev = curr.prev;
                 return;
             }
+
+            i++;
         }
     }
 
     remove(item: T): T | undefined {
         if (!this.head || !this.tail) {
-            throw new Error("Oh no");
+            return;
         }
 
         if (item === this.head.value) {
@@ -72,7 +75,7 @@ export default class DoublyLinkedList<T> {
 
     removeAt(index: number): T | undefined {
         if (index > this.length - 1 || index < 0 || !this.head || !this.tail) {
-            throw new Error("Oh no");
+            return;
         }
 
         this.length--;
@@ -147,7 +150,7 @@ export default class DoublyLinkedList<T> {
 
     get(index: number): T | undefined {
         if (index > this.length || !this.head || !this.tail) {
-            throw new Error("Oh no");
+            return;
         }
 
         let curr = this.head;
