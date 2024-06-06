@@ -1,38 +1,38 @@
-const qs = (array: number[], low: number, high: number): void => {
+function swap(arr: number[], i: number, x: number) {
+    const temp = arr[i];
+    arr[i] = arr[x];
+    arr[x] = temp;
+}
+
+function qs(arr: number[], low: number, high: number) {
+    // base case
     if (low >= high) {
         return;
     }
 
-    const pivotIndex = partition(array, low, high);
+    const idx = partition(arr, low, high);
 
-    qs(array, low, pivotIndex - 1);
-    qs(array, pivotIndex + 1, high);
-};
+    qs(arr, low, idx - 1);
+    qs(arr, idx + 1, high);
+}
 
-const partition = (array: number[], low: number, high: number): number => {
-    const pivot = array[high];
-    let index = low - 1;
+function partition(arr: number[], low: number, high: number): number {
+    const pivot = arr[high];
+    let idx = low;
 
     for (let i = low; i < high; i++) {
-        if (array[i] <= pivot) {
-            index++;
-            const temp = array[i];
-            array[i] = array[index];
-            array[index] = temp;
+        if (arr[i] <= pivot) {
+            swap(arr, i, idx);
+            idx++;
         }
     }
 
-    index++;
-    array[high] = array[index];
-    array[index] = pivot;
+    arr[high] = arr[idx];
+    arr[idx] = pivot;
 
-    return index;
-};
-
-export default function quick_sort(array: number[]): number[] {
-    qs(array, 0, array.length - 1);
-    console.log(array);
-    return array;
+    return idx;
 }
 
-quick_sort([9, 3, 7, 4, 69, 420, 42]);
+export default function quick_sort(arr: number[]): void {
+    qs(arr, 0, arr.length - 1);
+}
