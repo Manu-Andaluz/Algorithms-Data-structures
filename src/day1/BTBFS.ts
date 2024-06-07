@@ -7,19 +7,13 @@ export default function bfs(head: BinaryNode<number>, needle: number): boolean {
     while (queue.peek() !== undefined) {
         let curr = queue.deque() as BinaryNode<number>;
 
-        if (curr) {
-            if (curr.value === needle) {
-                return true;
-            }
-
-            if (curr.left) {
-                queue.enqueue(curr.left);
-            }
-
-            if (curr.right) {
-                queue.enqueue(curr.right);
-            }
+        if (curr.value === needle) {
+            return true;
         }
+
+        curr.left && queue.enqueue(curr.left);
+
+        curr.right && queue.enqueue(curr.right);
     }
 
     return false;
