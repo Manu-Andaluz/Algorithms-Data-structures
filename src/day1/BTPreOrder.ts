@@ -1,19 +1,15 @@
-function walk(current: BinaryNode<number> | null, path: number[]): void {
-    if (!current) {
-        return;
+function walk(node: BinaryNode<number> | null, arr: number[]) {
+    if (!node) {
+        return arr;
     }
 
-    path.push(current.value);
+    arr.push(node.value);
+    walk(node.left, arr);
+    walk(node.right, arr);
 
-    walk(current.left, path);
-
-    walk(current.right, path);
+    return arr;
 }
 
 export default function pre_order_search(head: BinaryNode<number>): number[] {
-    const path: number[] = [];
-    walk(head, path);
-
-    return path;
+    return walk(head, []);
 }
-

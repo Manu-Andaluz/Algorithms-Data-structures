@@ -5,7 +5,6 @@ function walk(current: BinaryNode<number> | null, path: number[]): number[] {
 
     walk(current.left, path);
     walk(current.right, path);
-
     path.push(current.value);
 
     return path;
@@ -14,4 +13,3 @@ function walk(current: BinaryNode<number> | null, path: number[]): number[] {
 export default function post_order_search(head: BinaryNode<number>): number[] {
     return walk(head, []);
 }
-
