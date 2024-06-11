@@ -1,83 +1,65 @@
 export default class MinHeap {
-    public length: number;
     private data: number[];
+    public length: number;
 
     constructor() {
         this.data = [];
         this.length = 0;
     }
 
-    insert(value: number): void {
+    insert(value: number) {
         this.data[this.length] = value;
-        this.heapifyUp(this.length);
         this.length++;
+        this.heapifyUp(this.length - 1);
     }
 
-    delete(): number {
+    delete(): number | undefined {
         if (this.length === 0) {
-            return -1;
+            return;
         }
 
-        const temp = this.data[0];
+        const head = this.data[0];
         this.length--;
-        if (this.length === 0) {
-            this.data = [];
-            return temp;
-        }
-
         this.data[0] = this.data[this.length];
+        this.data.length = this.length;
+
         this.heapifyDown(0);
-        return temp;
+        return head;
     }
 
-    private heapifyDown(idx: number): void {
-        const lIndex = this.leftChild(idx);
-        const rIndex = this.rightChild(idx);
-
-        if (idx >= this.length || lIndex >= this.length) {
+    heapifyUp(index: number): void {
+        if (index === 0) {
             return;
         }
 
-        const lValue = this.data[lIndex];
-        const rValue = this.data[rIndex];
-        const currValue = this.data[idx];
+        const parentIndex = Math.floor((index - 1) / 2);
+        const current = this.data[index];
+        const parent = this.data[parentIndex];
 
-        if (lValue < rValue && lValue < currValue) {
-            this.data[idx] = lValue;
-            this.data[lIndex] = currValue;
-            this.heapifyDown(lIndex);
-        } else if (rValue < lValue && rValue < currValue) {
-            this.data[idx] = rValue;
-            this.data[rIndex] = currValue;
-            this.heapifyDown(rIndex);
+        if (parent > current) {
+            this.data[parentIndex] = current;
+            this.data[index] = parent;
+            return this.heapifyUp(parentIndex);
         }
     }
 
-    private heapifyUp(idx: number): void {
-        if (idx === 0) {
+    heapifyDown(index: number): void {
+        const left = 2 * index + 1;
+        const right = 2 * index + 2;
+
+        if (index >= this.length || left >= this.length) {
             return;
         }
 
-        const p = this.parent(idx);
-        const pValue = this.data[p];
-        const currValue = this.data[idx];
+        const current = this.data[index];
 
-        if (pValue > currValue) {
-            this.data[p] = currValue;
-            this.data[idx] = pValue;
-            this.heapifyUp(p);
+        const minVal = this.data[left] < this.data[right] ? this.data[left] : this.data[right];
+        const minValIndex = this.data[left] < this.data[right] ? left : right;
+
+        if (minVal && minVal < current) {
+            this.data[minValIndex] = current;
+            this.data[index] = minVal;
+            return this.heapifyDown(minValIndex);
         }
-    }
-
-    private parent(idx: number): number {
-        return Math.floor((idx - 1) / 2);
-    }
-
-    private leftChild(idx: number): number {
-        return idx * 2 + 1;
-    }
-    private rightChild(idx: number): number {
-        return idx * 2 + 2;
     }
 }
-
