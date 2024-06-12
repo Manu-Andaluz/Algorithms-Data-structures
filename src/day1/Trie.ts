@@ -1,8 +1,47 @@
+type Node = {
+    value: string;
+    key: string;
+    childrend?: { [key: string]: Node };
+    isEndOfWord: boolean;
+};
+
 export default class Trie {
-    constructor() {}
+    private data: Node[];
+    private head?: Node;
+    public height: number;
 
-    insert(item: string): void {}
+    constructor() {
+        this.data = [];
+        this.head = undefined;
+        this.height = 0;
+    }
+
+    insert(word: string): void {}
+
     delete(item: string): void {}
-    find(partial: string): string[] {}
-}
 
+    getIdx(str: string): number {
+        return str.charCodeAt(0) - "a".charCodeAt(0);
+    }
+
+    find(partial: string): string[] | undefined {
+        return;
+        // if (this.data.length === 0) {
+        //     return [];
+        // }
+        //
+        // const path: string[] = [];
+        //
+        // for (let i = 0; i < partial.length; i++) {
+        //     const character = this.getIdx(partial[i]);
+        //
+        //     if (!this.data[character]) {
+        //         return undefined;
+        //     }
+        //
+        //     path.push(this.data[character]);
+        // }
+        //
+        // return path;
+    }
+}
